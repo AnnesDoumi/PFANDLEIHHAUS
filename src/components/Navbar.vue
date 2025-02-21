@@ -4,7 +4,7 @@
       <img src="/src/assets/logo.png" alt="Logo" />
     </div>
     <button class="menu-btn" @click="toggleMenu">☰</button>
-    <div class="nav-container" :class="{ open: menuOpen || isDesktop }">
+    <div class="nav-container" :class="{ open: menuOpen }">
       <ul class="nav-links">
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/services">Leistungen</router-link></li>
@@ -20,23 +20,14 @@
 export default {
   data() {
     return {
-      menuOpen: false,
-      isDesktop: window.innerWidth > 768
+      menuOpen: false
     };
   },
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
-    },
-    checkScreenSize() {
-      this.isDesktop = window.innerWidth > 768;
+      this.$emit("toggle-menu", this.menuOpen);
     }
-  },
-  mounted() {
-    window.addEventListener('resize', this.checkScreenSize);
-  },
-  beforeUnmount() {
-    window.removeEventListener('resize', this.checkScreenSize);
   }
 };
 </script>
@@ -59,13 +50,21 @@ export default {
 }
 .nav-container.open {
   display: block;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: #222;
+  z-index: 1000;
+  padding: 1rem 0;
 }
 .nav-links {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: center;
 }
 .nav-links li {
   padding: 0.5rem 1rem;
@@ -87,22 +86,8 @@ export default {
   .menu-btn {
     display: block;
   }
-  .nav-container {
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background: #222;
-    z-index: 1000;
-  }
-  .nav-links {
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-  }
-  .navbar {
-    flex-direction: row;
-    align-items: center;
+  .app-container.menu-open .container {
+    margin-top: 200px;
   }
 }
 </style>

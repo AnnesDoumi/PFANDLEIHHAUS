@@ -1,7 +1,7 @@
 // src/App.vue
 <template>
-  <div class ="app-container">
-    <Navbar />
+  <div class="app-container" :class="{ 'menu-open': menuOpen }">
+    <Navbar @toggle-menu="handleMenuToggle" />
     <main class="container">
       <router-view />
     </main>
@@ -10,11 +10,21 @@
 </template>
 
 <script>
-import Navbar from "/src/components/Navbar.vue";
-import Footer from "/src/components/Footer.vue";
+import Navbar from "./components/Navbar.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
-  components: { Navbar, Footer }
+  components: { Navbar, Footer },
+  data() {
+    return {
+      menuOpen: false
+    };
+  },
+  methods: {
+    handleMenuToggle(isOpen) {
+      this.menuOpen = isOpen;
+    }
+  }
 };
 </script>
 
